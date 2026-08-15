@@ -1,0 +1,370 @@
+/* ==========================================================================
+   Wireframe Kit 共通CSS
+   - モノクロ基調でワイヤーフレームとしての情報構造だけを伝える
+   - PC: 1440px デザイン想定 / SP: 390px デザイン想定
+   - ブレークポイント: 768px
+   ========================================================================== */
+
+:root {
+  --wf-color-text: #333;
+  --wf-color-text-weak: #888;
+  --wf-color-border: #bbb;
+  --wf-color-border-weak: #ddd;
+  --wf-color-bg: #fff;
+  --wf-color-bg-weak: #f4f4f4;
+  --wf-color-placeholder: #e9e9e9;
+  --wf-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  --wf-container-width: 1120px;
+  --wf-container-padding: 40px;
+  --wf-section-padding: 80px;
+  --wf-gap: 40px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --wf-container-padding: 20px;
+    --wf-section-padding: 48px;
+    --wf-gap: 24px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ベース
+   -------------------------------------------------------------------------- */
+
+.wf-body,
+body:has(.wf-section) {
+  margin: 0;
+  color: var(--wf-color-text);
+  background: var(--wf-color-bg);
+  font-family: var(--wf-font-family);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wf-section h1,
+.wf-section h2,
+.wf-section h3,
+.wf-section h4 {
+  margin: 0 0 0.75em;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.wf-section h1 {
+  font-size: 40px;
+}
+
+.wf-section h2 {
+  font-size: 32px;
+}
+
+.wf-section h3 {
+  font-size: 24px;
+}
+
+.wf-section h4 {
+  font-size: 18px;
+}
+
+.wf-section p {
+  margin: 0 0 1em;
+}
+
+.wf-section p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .wf-section h1 {
+    font-size: 28px;
+  }
+
+  .wf-section h2 {
+    font-size: 24px;
+  }
+
+  .wf-section h3 {
+    font-size: 20px;
+  }
+
+  .wf-section h4 {
+    font-size: 16px;
+  }
+
+  .wf-section {
+    font-size: 14px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section / Container
+   -------------------------------------------------------------------------- */
+
+.wf-section {
+  position: relative;
+  padding: var(--wf-section-padding) 0;
+  border-bottom: 1px dashed var(--wf-color-border-weak);
+}
+
+.wf-section:last-child {
+  border-bottom: none;
+}
+
+.wf-section--fill {
+  background: var(--wf-color-bg-weak);
+}
+
+.wf-section__label {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 10px;
+  border: 1px solid var(--wf-color-border);
+  border-radius: 2px;
+  background: var(--wf-color-bg);
+  color: var(--wf-color-text-weak);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.wf-container {
+  max-width: calc(var(--wf-container-width) + var(--wf-container-padding) * 2);
+  margin: 0 auto;
+  padding: 0 var(--wf-container-padding);
+}
+
+/* --------------------------------------------------------------------------
+   レイアウト（TwoColumn / Columns）
+   -------------------------------------------------------------------------- */
+
+.wf-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--wf-gap);
+  align-items: center;
+}
+
+.wf-columns {
+  display: grid;
+  grid-template-columns: repeat(var(--wf-columns, 3), 1fr);
+  gap: var(--wf-gap);
+}
+
+@media (max-width: 767px) {
+  .wf-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  /* SPでは画像→テキストの順を入れ替えたい場合に使う */
+  .wf-two-column--sp-reverse > *:first-child {
+    order: 2;
+  }
+
+  .wf-two-column--sp-reverse > *:last-child {
+    order: 1;
+  }
+
+  .wf-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   プレースホルダー（IMAGE / VIDEO / UI）
+   -------------------------------------------------------------------------- */
+
+.wf-placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: var(--wf-placeholder-ratio, 16 / 9);
+  border: 1px solid var(--wf-color-border);
+  background-color: var(--wf-color-placeholder);
+  background-image: linear-gradient(
+      to top right,
+      transparent calc(50% - 0.5px),
+      var(--wf-color-border),
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom right,
+      transparent calc(50% - 0.5px),
+      var(--wf-color-border),
+      transparent calc(50% + 0.5px)
+    );
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.wf-placeholder__label {
+  position: relative;
+  padding: 4px 12px;
+  background: var(--wf-color-bg);
+  border: 1px solid var(--wf-color-border);
+  border-radius: 2px;
+  color: var(--wf-color-text-weak);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.wf-placeholder--video .wf-placeholder__icon {
+  position: relative;
+  width: 0;
+  height: 0;
+  margin-bottom: 8px;
+  border-style: solid;
+  border-width: 14px 0 14px 24px;
+  border-color: transparent transparent transparent var(--wf-color-text-weak);
+}
+
+.wf-placeholder--video,
+.wf-placeholder--ui {
+  flex-direction: column;
+}
+
+.wf-placeholder--ui {
+  background-image: none;
+}
+
+.wf-placeholder--ui::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  border-bottom: 1px solid var(--wf-color-border);
+  background: var(--wf-color-bg-weak);
+}
+
+.wf-placeholder--ui::after {
+  content: "● ● ●";
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  color: var(--wf-color-border);
+  font-size: 8px;
+  letter-spacing: 2px;
+  line-height: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   ボタン / テキストリンク
+   -------------------------------------------------------------------------- */
+
+.wf-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 240px;
+  padding: 14px 32px;
+  border: 1px solid var(--wf-color-text);
+  border-radius: 2px;
+  background: var(--wf-color-bg);
+  color: var(--wf-color-text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.wf-button::after {
+  content: "→";
+  font-weight: 400;
+}
+
+.wf-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--wf-color-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.wf-more::after {
+  content: "→";
+  font-weight: 400;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .wf-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ニュースリスト
+   -------------------------------------------------------------------------- */
+
+.wf-news {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--wf-color-border-weak);
+}
+
+.wf-news__item {
+  display: flex;
+  gap: 24px;
+  padding: 16px 8px;
+  border-bottom: 1px solid var(--wf-color-border-weak);
+}
+
+.wf-news__date {
+  flex-shrink: 0;
+  color: var(--wf-color-text-weak);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.wf-news__title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.wf-news__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .wf-news__item {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ユーティリティ
+   -------------------------------------------------------------------------- */
+
+.wf-align-center {
+  text-align: center;
+}
+
+/* 見出しブロックの直後に置くレイアウトの上マージン */
+.wf-stack-top {
+  margin-top: var(--wf-gap);
+}
+
+.wf-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wf-stack-gap, 24px);
+}
